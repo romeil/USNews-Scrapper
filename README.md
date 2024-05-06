@@ -1,6 +1,6 @@
 # U.S.News-Scrapper
 
-U.S.News Scrapper is a Python library that collects data from the website of [usnews.com](https://www.usnews.com/best-graduate-schools) and output those data in a file for offline usage. Till now, it is only capable of collecting graduate schools data and output it in `.xls` format. After generating the `.xls` file, it will be opened by default excel file opener.
+U.S.News Scrapper is a Python library that collects data from the website of [usnews.com](https://www.usnews.com/best-colleges) and output those data in a file for offline usage. It collects college data and then outputs it in either `.xlsx`, `.csv` or `.html` format.
 
 ## Setup
 Make sure that [Python 3](https://www.python.org/downloads) is already installed in your system.
@@ -23,59 +23,57 @@ Then it can be used via command line. See [Command line example](command-line-ex
 
 ### Command line usage
 ```
-python -m usnews_scrapper [-h] -u URL [-o OUTPUTFILENAME] [-p PAUSETIME] [--from STARTPAGE] [--to ENDPAGE]
+python -m usnews_scrapper [-h] outputfilename [-s STARTPAGE] [-e ENDPAGE]  [-f {xlsx,csv,html}] [-p PAUSETIME]
 ```
-Collects data from usnews and generates excel file.
+Collects data from usnews and generates either an excel, csv or html file.
 
 Necessary Arguments:
 ```
--u URL, --url URL     		        The usnews address to collect data from. 
-                                        Put the URL within qoutes i.e. " or ' .
+OUTPUTFILENAME     		                The output file name without extension.
 ```
 Optional Arguments:
 ```
--h, --help            		        Show this help message and exit
--o OUTPUTFILENAME     		        The output file name without extension.
--p PAUSETIME, --pause PAUSETIME         The pause time between loading pages from usnews.
---from STARTPAGE      		        The page number from which the scrapper starts working.
---to ENDPAGE          		        The page number to which the scrapper works.
+-h, --help            		            Show this help message and exit.
+-s STARTPAGE, --start STARTPAGE         The page number from which the scrapper starts working.  		        
+-e ENDPAGE, --end ENDPAGE               The page number to which the scrapper works.
+-f FORMAT, --format FORMAT              The format of the output file.
+-p PAUSETIME, --pause PAUSETIME         The pause time between loading pages from usnews.	        
 ```
 
 ### Module usage
-`usnews_scrapper.unsc()` takes input the `url` as string. The other arguments are optional. This function will return absolute path to the output file.
+`usnews_scrapper.unsc()` takes the `filename` as a string. The other arguments are optional. This function will return absolute path to the output file.
 
 ```python
 from usnews_scrapper import unsc
-unsc(url:str, output_file_name:str, pause_time:int, from_page:int, to_page:int) -> str
+unsc(outputfilename:str, pausetime:int, format:str, startpage:int, endpage:int) -> str
 ```
 See [Module example](#module-example) for examples.
 
 ## Examples
 
 ### Command line example
-Copy the address of the page from usnews website and in the Command Prompt and enter this command -
+Enter this command -
 
 ```bash
-$ python -m usnews_scrapper --url="https://www.usnews.com/best-graduate-schools/top-science-schools/computer-science-rankings" -o file_name -p 2 --from=2 --to=5 
+$ python -m usnews_scrapper file_name --start 1 --end 2 --format xlsx --pause 2
 ```
 
 If you want to run from the source, then enter this command instead.
 
 ```bash
 $ cd USNews-Scrapper/usnews_scrapper/
-$ python usnews_scrapper.py --url="https://www.usnews.com/best-graduate-schools/top-science-schools/computer-science-rankings" -o file_name -p 2 --from=2 --to=5 
+$ python usnews_scrapper.py file_name --start 1 --end 2 --format xlsx --pause 2
 ```
-In both cases, The output file will be saved in current directory under the name of `file_name_*.xls`. 
+In both cases, the output file will be saved in `usnews_scrapper` directory under the name of `file_name_*.xlsx`. 
 
 ### Module example
 
 ```python
 >>> from usnews_scrapper import unsc
->>> url = "https://www.usnews.com/best-graduate-schools/top-science-schools/computer-science-rankings"
->>> output_file = unsc(url=url, output_file_name="output", pause_time=2, from_page=2, to_page=5)
+>>> output_file = unsc(outputfilename="file_name", startpage=1, endpage=2, format="xlsx", pausetime=2)
 ```
 The output_file will contain the absolute path to the output file.
 
-## Author
+## Authors
 
 * **Joy Ghosh** - [www.ijoyghosh.com](https://www.ijoyghosh.com)
